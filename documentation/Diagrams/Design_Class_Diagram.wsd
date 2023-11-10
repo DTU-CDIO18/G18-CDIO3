@@ -15,11 +15,13 @@ class Die {
     -numberOfSides: int
     +roll(): int[]
 }
+
 class Bank {
     -balance: double
     +takeMoney(account: Account): void
     +giveMoney(account: Account): void
 }
+
 class Player {
     -account: Account
     -name: String
@@ -27,8 +29,10 @@ class Player {
 }
 
 class Board {
+    -tokens: Token[]
     -fields: Field[]
-    -chanceCards: ChanceCard[] 
+
+    +nextTurn(): void
 }
 
 abstract class Field {
@@ -36,14 +40,19 @@ abstract class Field {
     -name: String
     -position: int
     -fieldType: FieldType
+    +{abstract} landOnField(token: Token): void
+}
+
+abstract class PassableField {
+    +{abstract} passField(token: Token): void
+}
+
+class GoField {
+    +landOnField(token: Token): void
     +landOnField(token: Token): void
 }
 
-class Jail {
-    +landOnField(token: Token): void
-}
-
-class Property {
+class PropertyField {
     -price: double
     -owner: Player
 
@@ -53,10 +62,6 @@ class Property {
 class Token {
     -tokenType: TokenType
     -player: Player
-}
-
-abstract class ChanceCard {
-
 }
 
 enum FieldType {
@@ -75,8 +80,14 @@ enum TokenType {
     BOAT,
 }
 
-Jail --|> Field
-Property --|> Field
+Field <|-- PassableField
+Field <|-- PropertyField 
+PassableField <|-- GoField
+Board "1      " *-- "1..* " Field
+Board "1 " *-- "2    " Token
+Field "1 " --> "1" FieldType
+Token "1 " *-- "1" Player
+Token "1 " o-- "1    " TokenType
 
 
 

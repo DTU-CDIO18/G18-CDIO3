@@ -1,0 +1,5 @@
+@startuml SystemSequenceDiagram
+
+Main -> Board: createTokens(player: Player)
+
+@enduml
