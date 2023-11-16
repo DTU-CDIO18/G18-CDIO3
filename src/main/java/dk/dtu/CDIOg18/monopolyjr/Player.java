@@ -11,4 +11,16 @@ public class Player {
         this.age = age;
         this.account = account;
     }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
