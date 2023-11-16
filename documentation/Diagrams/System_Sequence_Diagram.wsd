@@ -1,0 +1,8 @@
+@startuml System_Sequence_Diagram
+
+actor Player
+
+Player -> Game: Start Game
+
+
+@enduml
