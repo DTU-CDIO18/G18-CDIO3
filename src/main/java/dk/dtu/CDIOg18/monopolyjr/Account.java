@@ -5,6 +5,11 @@ public class Account {
     private double balance = 0;
 
     public Account(double balance) {
+        setBalance(balance);
+    }
+
+    private void setBalance(double balance) {
+         if(balance < 0) throw new IllegalArgumentException("Balance cannot be negative");
         this.balance = balance;
     }
 
@@ -13,10 +18,7 @@ public class Account {
     }
 
     public void deposit(double amount) {
-        // TODO - Should it be done like that or make just take the abs value of the amount?
-        if(amount < 0) {
-            return;
-        }
+        if(amount < 0) throw new IllegalArgumentException("Amount cannot be negative");
         balance += amount;
     }
 
@@ -26,7 +28,7 @@ public class Account {
      * @return true of the withdaw was successful and false if the player ends up with minus balance
      */
     public boolean withdraw(double amount) {
-        // TODO - Should it be done like that or make just take the abs value of the amount?
+        if(amount < 0) throw new IllegalArgumentException("Amount cannot be negative");
         if(balance - amount < 0) {
             return false;
         }
