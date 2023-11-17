@@ -1,9 +1,9 @@
 package dk.dtu.CDIOg18.monopolyjr;
 
 public class Die {
-    private int numberOfSides;
+    private int faceCount = 6;
 
-    public Die(int numberOfSides) {
-        this.numberOfSides = numberOfSides;
+    public int getFaceValue() {
+        return (int) (Math.random() * this.faceCount) + 1;
     }
 }
