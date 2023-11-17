@@ -1,9 +1,15 @@
 package dk.dtu.CDIOg18.monopolyjr;
 
 public class Bank {
-    private double balance = 0;
 
-    public Bank(double balance) {
-        this.balance = balance;
+    public Bank() {
+    }
+
+    public boolean takeMoney(Account account, double amount) {
+        return account.withdraw(amount);
+    }
+
+    public void giveMoney(Account account, double amount) { 
+        account.deposit(amount);
     }
 }
