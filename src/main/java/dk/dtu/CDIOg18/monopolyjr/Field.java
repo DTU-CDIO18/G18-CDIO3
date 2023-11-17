@@ -29,6 +29,6 @@ public abstract class Field {
         return fieldType;
     }
 
-    public abstract void landOnField(Token token);
+    public abstract void landOnField(Token token, Bank bank);
 
 }

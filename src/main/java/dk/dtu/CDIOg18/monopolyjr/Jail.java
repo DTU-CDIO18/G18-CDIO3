@@ -7,7 +7,7 @@ public class Jail extends Field {
     }
 
     @Override
-    public void landOnField(Token token) {
+    public void landOnField(Token token, Bank bank) {
        
     }
 

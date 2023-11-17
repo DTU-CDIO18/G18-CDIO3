@@ -10,16 +10,16 @@ public class GoField extends PassableField {
     }
 
     @Override
-    public void landOnField(Token token) {
-        givePlayerReward(token.getPlayer());
+    public void landOnField(Token token, Bank bank) {
+        givePlayerReward(token.getPlayer(), bank);
     }
 
     @Override
-    public void fieldPassed(Token token) {
-        givePlayerReward(token.getPlayer());
+    public void fieldPassed(Token token, Bank bank) {
+        givePlayerReward(token.getPlayer(), bank);
     }
 
-    private void givePlayerReward(Player player) {
+    private void givePlayerReward(Player player, Bank bank) {
         // FIXME - The money should be given from the bank
         player.getAccount().deposit(fieldReward);
     }

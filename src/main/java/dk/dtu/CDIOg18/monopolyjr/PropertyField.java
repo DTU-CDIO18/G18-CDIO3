@@ -11,7 +11,7 @@ public class PropertyField extends Field {
     }
 
     @Override
-    public void landOnField(Token token) {
+    public void landOnField(Token token, Bank bank) {
         Player player = token.getPlayer();
         if(hasOwner()) {
            player.getAccount().payPlayer(owner, price);

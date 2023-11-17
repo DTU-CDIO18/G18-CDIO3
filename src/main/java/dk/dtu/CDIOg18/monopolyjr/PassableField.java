@@ -6,6 +6,6 @@ public abstract class PassableField extends Field {
         super(index, name, fieldType);
     }
 
-    public abstract void fieldPassed(Token token);
+    public abstract void fieldPassed(Token token, Bank bank);
     
 }
