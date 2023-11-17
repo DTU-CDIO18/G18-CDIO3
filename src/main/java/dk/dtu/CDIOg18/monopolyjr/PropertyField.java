@@ -5,8 +5,8 @@ public class PropertyField extends Field {
     private Player owner;
     private double price;
 
-    public PropertyField(int index, String name, double price) {
-        super(index, name, FieldType.PROPERTY);
+    public PropertyField(String name, double price) {
+        super(name, FieldType.PROPERTY);
         this.price = price;
     }
 

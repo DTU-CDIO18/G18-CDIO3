@@ -4,8 +4,8 @@ public class GoField extends PassableField {
 
     private final double fieldReward;
 
-    public GoField(int index, String name, double fieldReward) {
-        super(index, name, FieldType.START);
+    public GoField(String name, double fieldReward) {
+        super(name, FieldType.START);
         this.fieldReward = fieldReward;
     }
 
