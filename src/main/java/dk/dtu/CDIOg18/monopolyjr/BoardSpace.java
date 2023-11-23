@@ -2,6 +2,8 @@ package dk.dtu.CDIOg18.monopolyjr;
 
 import java.util.ArrayList;
 
+import dk.dtu.CDIOg18.monopolyjr.fields.Field;
+
 public class BoardSpace {
    private Field field;
    private ArrayList<Token> tokens;
