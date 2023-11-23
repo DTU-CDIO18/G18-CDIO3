@@ -1,7 +1,7 @@
 package dk.dtu.CDIOg18.monopolyjr.fields;
 
 import dk.dtu.CDIOg18.monopolyjr.Bank;
-import dk.dtu.CDIOg18.monopolyjr.Player;
+import dk.dtu.CDIOg18.monopolyjr.Token;
 
 public abstract class PassableField extends Field {
 
@@ -9,6 +9,6 @@ public abstract class PassableField extends Field {
         super(name, fieldType);
     }
 
-    public abstract void fieldPassed(Player player, Bank bank);
+    public abstract void fieldPassed(Token token, Bank bank);
     
 }

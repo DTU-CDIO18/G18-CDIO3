@@ -1,7 +1,7 @@
 package dk.dtu.CDIOg18.monopolyjr.fields;
 
 import dk.dtu.CDIOg18.monopolyjr.Bank;
-import dk.dtu.CDIOg18.monopolyjr.Player;
+import dk.dtu.CDIOg18.monopolyjr.Token;
 
 public class Jail extends Field {
 
@@ -10,7 +10,7 @@ public class Jail extends Field {
     }
 
     @Override
-    public void landOnField(Player player, Bank bank) {
+    public void landOnField(Token token, Bank bank) {
        
     }
 

@@ -1,8 +1,14 @@
 package dk.dtu.CDIOg18.monopolyjr;
 
-public enum Token {
-    CAT,
-    DOG,
-    CAR,
-    BOAT,
+public class Token {
+
+    private Player player;
+    
+    public Token(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
