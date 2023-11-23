@@ -2,7 +2,6 @@ package dk.dtu.CDIOg18.monopolyjr.fields;
 
 import dk.dtu.CDIOg18.monopolyjr.Bank;
 import dk.dtu.CDIOg18.monopolyjr.Player;
-import dk.dtu.CDIOg18.monopolyjr.Token;
 
 public class PropertyField extends Field {
 
@@ -15,8 +14,7 @@ public class PropertyField extends Field {
     }
 
     @Override
-    public void landOnField(Token token, Bank bank) {
-        Player player = token.getPlayer();
+    public void landOnField(Player player, Bank bank) {
         if(hasOwner()) {
            player.getAccount().payPlayer(owner, price);
             return;
