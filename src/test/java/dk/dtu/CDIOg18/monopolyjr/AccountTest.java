@@ -10,6 +10,7 @@ public class AccountTest {
     
     private final String playerName = "Johnny Test";
     private final int playerAge = 10;
+    private final Token token = Token.BOAT;
     private final double startingBalance = 20;
 
     private Player player;
@@ -17,7 +18,7 @@ public class AccountTest {
     @BeforeEach
     public void setup() {
         Account account = new Account(startingBalance);
-        player = new Player(playerName, playerAge, account);
+        player = new Player(playerName, playerAge, token, account);
     }
 
     public void shouldNotGoInMinusWhenWithdrawAndShouldReturnFalse() {
