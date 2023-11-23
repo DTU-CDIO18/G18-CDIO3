@@ -1,7 +1,7 @@
 package dk.dtu.CDIOg18.monopolyjr.fields;
 
 import dk.dtu.CDIOg18.monopolyjr.Bank;
-import dk.dtu.CDIOg18.monopolyjr.Token;
+import dk.dtu.CDIOg18.monopolyjr.Player;
 
 public abstract class Field {
     
@@ -22,6 +22,6 @@ public abstract class Field {
     }
 
     // TODO: I am not sure if this one is actually needed, but I will mark it and come back to it later
-    public abstract void landOnField(Token token, Bank bank);
+    public abstract void landOnField(Player player, Bank bank);
 
 }

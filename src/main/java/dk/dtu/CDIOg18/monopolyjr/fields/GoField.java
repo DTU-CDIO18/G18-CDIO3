@@ -2,7 +2,6 @@ package dk.dtu.CDIOg18.monopolyjr.fields;
 
 import dk.dtu.CDIOg18.monopolyjr.Bank;
 import dk.dtu.CDIOg18.monopolyjr.Player;
-import dk.dtu.CDIOg18.monopolyjr.Token;
 
 public class GoField extends PassableField {
 
@@ -14,13 +13,13 @@ public class GoField extends PassableField {
     }
 
     @Override
-    public void landOnField(Token token, Bank bank) {
-        givePlayerReward(token.getPlayer(), bank);
+    public void landOnField(Player player, Bank bank) {
+        givePlayerReward(player, bank);
     }
 
     @Override
-    public void fieldPassed(Token token, Bank bank) {
-        givePlayerReward(token.getPlayer(), bank);
+    public void fieldPassed(Player player, Bank bank) {
+        givePlayerReward(player, bank);
     }
 
     private void givePlayerReward(Player player, Bank bank) {
