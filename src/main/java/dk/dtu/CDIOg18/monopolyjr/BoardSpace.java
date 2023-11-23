@@ -19,4 +19,25 @@ public class BoardSpace {
          this.tokens.add(token);
       }
    }
+
+   public Field getField() {
+      return this.field;
+   }
+
+   public Token[] getTokens() {
+      Token[] tokenArr = new Token[this.tokens.size()];
+
+      this.tokens.toArray(tokenArr);
+      
+      return tokenArr;
+   }
+
+   public void addToken(Token token) {
+      this.tokens.add(token);
+   }
+
+   public void removeToken(Token token) {
+      this.tokens.remove(token);
+   }
+   
 }
