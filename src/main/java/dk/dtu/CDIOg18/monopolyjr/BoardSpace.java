@@ -6,19 +6,19 @@ import dk.dtu.CDIOg18.monopolyjr.fields.Field;
 
 public class BoardSpace {
    private Field field;
-   private ArrayList<Token> tokens;
+   private ArrayList<Player> players;
    
    public BoardSpace(Field field) {
       this.field = field;
-      this.tokens = new ArrayList<>();
+      this.players = new ArrayList<>();
    }
 
-   public BoardSpace(Field field, Token tokens) {
+   public BoardSpace(Field field, Player[] players) {
       this.field = field;
-      this.tokens = new ArrayList<>();
+      this.players = new ArrayList<>();
 
-      for (Token token : this.tokens) {
-         this.tokens.add(token);
+      for (Player player : players) {
+         this.players.add(player);
       }
    }
 
@@ -26,20 +26,20 @@ public class BoardSpace {
       return this.field;
    }
 
-   public Token[] getTokens() {
-      Token[] tokenArr = new Token[this.tokens.size()];
+   public Player[] getPlayers() {
+      Player[] playersArr = new Player[this.players.size()];
 
-      this.tokens.toArray(tokenArr);
+      this.players.toArray(playersArr);
       
-      return tokenArr;
+      return playersArr;
    }
 
-   public void addToken(Token token) {
-      this.tokens.add(token);
+   public void addPlayer(Player player) {
+      this.players.add(player);
    }
 
-   public void removeToken(Token token) {
-      this.tokens.remove(token);
+   public void removePlayer(Player player) {
+      this.players.remove(player);
    }
    
 }
