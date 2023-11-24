@@ -64,6 +64,7 @@ public class Board {
                 buyField(player, propertyField);
             }
             else {
+                payFieldOwner(player, propertyField);
 
             }
         }
@@ -97,6 +98,17 @@ public class Board {
             throw new PlayerOutOfMoneyException(player);
         
         this.bank.takeMoney(player.getAccount(), price);
+    }
+
+    private void payFieldOwner(Player player, PropertyField propertyField) throws PlayerOutOfMoneyException {
+        double price = propertyField.getPrice();
+
+        if (player.getAccount().getBalance() < price) 
+            throw new PlayerOutOfMoneyException(player);
+
+        this.bank.takeMoney(player.getAccount(), price);
+        this.bank.giveMoney(propertyField.getOwner().getAccount(), price);
+
     }
 
     public static void main(String[] args) {
