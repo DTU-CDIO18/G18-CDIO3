@@ -57,8 +57,16 @@ public class Board {
         this.players.replace(player, playerNewIndex);
 
         Field boardSpace = this.boardSpaces[playerNewIndex].getField();
-        if (boardSpace instanceof PropertyField)
-            buyField(player, (PropertyField) boardSpace);
+        if (boardSpace instanceof PropertyField) {
+            PropertyField propertyField = (PropertyField) boardSpace;
+
+            if (!propertyField.hasOwner()) {
+                buyField(player, propertyField);
+            }
+            else {
+
+            }
+        }
 
     }
 
@@ -79,24 +87,16 @@ public class Board {
         return passableFieldArr;
     }
 
+    /**
+     * @return returns true if field is bought, and false if field is already owned
+     */
     private void buyField(Player player, PropertyField propertyField) throws PlayerOutOfMoneyException {
-        double price = propertyField.getPrice(); // Used for buying the field, and for giving money if it's owned
+        double price = propertyField.getPrice();
 
-        if (!propertyField.hasOwner()) {
-
-            if (player.getAccount().getBalance() < price)
-                throw new PlayerOutOfMoneyException(player);
-            
-            
-            this.bank.takeMoney(player.getAccount(), price);
-            
-        }
-        else {
-            if (player.getAccount().getBalance() < price)
-                throw new PlayerOutOfMoneyException(player);
-            
-            this.bank.takeMoney(player.getAccount(), price);
-        }
+        if (player.getAccount().getBalance() < price)
+            throw new PlayerOutOfMoneyException(player);
+        
+        this.bank.takeMoney(player.getAccount(), price);
     }
 
     public static void main(String[] args) {
