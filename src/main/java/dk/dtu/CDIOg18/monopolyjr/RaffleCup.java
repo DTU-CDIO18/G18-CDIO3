@@ -4,7 +4,7 @@ public class RaffleCup {
 
     private Die[] dice;
 
-    RaffleCup(Die[] dice) {
+    public RaffleCup(Die[] dice) {
         this.dice = dice;
     }
 
