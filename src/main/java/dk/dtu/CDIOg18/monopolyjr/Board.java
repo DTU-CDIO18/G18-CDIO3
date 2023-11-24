@@ -11,7 +11,8 @@ import dk.dtu.CDIOg18.monopolyjr.fields.*;
 //      - 
 public class Board {
     private Bank bank;
-    private Field[] fields;
+    // private Field[] fields;
+    private BoardSpace[] boardSpaces;
 
     /**
      * HashMap of the player, and their index on the board
@@ -19,9 +20,9 @@ public class Board {
     private Map<Player, Integer> players;
 
 
-    public Board(Bank bank, Field[] fields, Player[] players) {
+    public Board(Bank bank, BoardSpace[] boardSpaces, Player[] players) {
         this.bank = bank;
-        this.fields = fields;
+        this.boardSpaces = boardSpaces;
         
         this.players = new HashMap<Player, Integer>();
         for (Player player : players) {
@@ -44,6 +45,14 @@ public class Board {
         System.out.println(this.toString());
     }
 
+    public int getPlayerPos(Player player) {
+        return this.players.get(player);
+    }
+
+    public BoardSpace getPlayerBoardSpace(Player player) {
+        return this.boardSpaces[this.players.get(player)];
+    }
+
     public void movePlayer(Player player, int numSpaces) throws PlayerOutOfMoneyException {
         int playerIndex = this.players.get(player);
 
@@ -52,12 +61,21 @@ public class Board {
             passableField.fieldPassed(player, this.bank);
         }
 
-        int playerNewIndex = (playerIndex + numSpaces) % this.fields.length;
+        int playerNewIndex = (playerIndex + numSpaces) % this.boardSpaces.length;
         this.players.replace(player, playerNewIndex);
 
-        Field field = this.fields[playerNewIndex];
-        if (field instanceof PropertyField)
-            buyField(player, (PropertyField) field);
+        Field boardSpace = this.boardSpaces[playerNewIndex].getField();
+        if (boardSpace instanceof PropertyField) {
+            PropertyField propertyField = (PropertyField) boardSpace;
+
+            if (!propertyField.hasOwner()) {
+                buyField(player, propertyField);
+            }
+            else {
+                payFieldOwner(player, propertyField);
+
+            }
+        }
 
     }
 
@@ -66,9 +84,9 @@ public class Board {
         // i.e when at the end of the array, start over at the start until the itterator `i` is fulfilled
         // Adapted from: https://stackoverflow.com/questions/8651965/java-array-traversal-in-circular-manner
         ArrayList<PassableField> passableFields = new ArrayList<>();
-        for (int i = 0, arrIdx = start; i < numSpaces; i++, arrIdx = ((start + i) % this.fields.length)) {
-            if (this.fields[arrIdx] instanceof PassableField) {
-                passableFields.add((PassableField) this.fields[arrIdx]);
+        for (int i = 0, arrIdx = start; i < numSpaces; i++, arrIdx = ((start + i) % this.boardSpaces.length)) {
+            if (this.boardSpaces[arrIdx].getField() instanceof PassableField) {
+                passableFields.add((PassableField) this.boardSpaces[arrIdx].getField());
             } 
         }
 
@@ -78,34 +96,39 @@ public class Board {
         return passableFieldArr;
     }
 
+    /**
+     * @return returns true if field is bought, and false if field is already owned
+     */
     private void buyField(Player player, PropertyField propertyField) throws PlayerOutOfMoneyException {
-        double price = propertyField.getPrice(); // Used for buying the field, and for giving money if it's owned
+        double price = propertyField.getPrice();
 
-        if (!propertyField.hasOwner()) {
+        if (player.getAccount().getBalance() < price)
+            throw new PlayerOutOfMoneyException(player);
+        
+        this.bank.takeMoney(player.getAccount(), price);
+        propertyField.setOwner(player);
+    }
 
-            if (player.getAccount().getBalance() < price)
-                throw new PlayerOutOfMoneyException(player);
-            
-            
-            this.bank.takeMoney(player.getAccount(), price);
-            
-        }
-        else {
-            if (player.getAccount().getBalance() < price)
-                throw new PlayerOutOfMoneyException(player);
-            
-            this.bank.takeMoney(player.getAccount(), price);
-        }
+    private void payFieldOwner(Player player, PropertyField propertyField) throws PlayerOutOfMoneyException {
+        double price = propertyField.getPrice();
+
+        if (player.getAccount().getBalance() < price) 
+            throw new PlayerOutOfMoneyException(player);
+
+        this.bank.takeMoney(player.getAccount(), price);
+        this.bank.giveMoney(propertyField.getOwner().getAccount(), price);
+
     }
 
     public static void main(String[] args) {
         Bank bank = new Bank();
 
-        Field[] fields = new Field[] {
-            new GoField("Go", 10),
-            new PropertyField("Test", 5),
-            new PropertyField("Test2", 2),
-            new Jail(0, "Jail"),
+        BoardSpace[] boardSpaces = new BoardSpace[] {
+            new BoardSpace(new GoField("Go", 10)),
+            new BoardSpace(null),
+            new BoardSpace(new PropertyField("Test", 5)),
+            new BoardSpace(new PropertyField("Test2", 2)),
+            new BoardSpace(new Jail(0, "Jail")),
         };
 
         Player[] players = new Player[] {
@@ -115,7 +138,7 @@ public class Board {
             new Player("Benny", 99, Token.DOG , new Account(0)), 
         };
 
-        Board board = new Board(bank, fields, players);
+        Board board = new Board(bank, boardSpaces, players);
 
         board.display();
     }
