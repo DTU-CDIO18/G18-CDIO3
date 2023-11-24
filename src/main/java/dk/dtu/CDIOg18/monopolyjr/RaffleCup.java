@@ -15,4 +15,14 @@ public class RaffleCup {
         }
         return diceResults;
     }
+
+    public static RaffleCup createRaffleCup(int numDice) {
+        Die[] dice = new Die[numDice];
+
+        for (int i = 0; i < dice.length; i++) {
+            dice[i] = new Die();
+        }
+
+        return new RaffleCup(dice);
+    }
 }
