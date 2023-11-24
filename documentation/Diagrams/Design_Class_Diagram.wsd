@@ -1,38 +1,79 @@
 @startuml Design_Class_Diagram
 
+package fields {
+    class Field
+    class GoField
+    class PropertyField
+    class FieldType
+    class PassableField
+}
+
+
 class Account {
     -balance: double
+
+    +Account(balance: double)
+    +setBalance(balance: double): void
+    +getBalance(): double
     +deposit(amount: double): void
-    +withdraw(amount: double): void
+    +withdraw(amount: double): boolean
+    +payPlayer(player: Player, amount: double): void
 }
 
 class RaffleCup {
     -dice: Die[]
+
+    +RaffleCup(dice: Die[])
     +roll(): int[]
 }
 
 class Die {
     -numberOfSides: int
-    +roll(): int[]
+
+    +getFaceValue(): int
 }
 
 class Bank {
     -balance: double
-    +takeMoney(account: Account): void
-    +giveMoney(account: Account): void
+    +takeMoney(account: Account, amount: double): void
+    +giveMoney(account: Account, amount: double): void
 }
 
 class Player {
     -account: Account
     -name: String
     -age: int
+    -token: Token
+
+    +Player(name: String, age: int, token: Token, account: Account)
+    +getName(): String
+    +getAge(): int
+    +getToken(): Token
+    +getAccount(): Account
 }
 
 class Board {
-    -tokens: Token[]
+    -bank: Bank
     -fields: Field[]
+    -players: HashMap<Player, Integer>
 
-    +nextTurn(): void
+    +Board(bank: Bank, fields: Field[], players: Player[])
+    +toString(): String
+    +display(): void
+    +movePlayer(player: Player, numSpaces: int): void
+    -passedPassableFields(start: int, numSpaces: int): PassableField[]
+    -buyField(player: Player, field: PropertyField): void
+}
+
+class BoardSpace {
+    -field: Field
+    -players: List<Player>
+
+    +BoardSpace(field: Field)
+    +getField(): Field
+    +getPlayers(): Player[]
+    +addPlayer(player: Player): void
+    +removePlayer(player: Player): void
 }
 
 abstract class Field {
@@ -40,28 +81,40 @@ abstract class Field {
     -name: String
     -position: int
     -fieldType: FieldType
-    +{abstract} landOnField(token: Token): void
+    
+    +Field(name: String, fieldType: FieldType)
+    +{abstract} landOnField(player: Player, bank: Bank): void
+    +getName(): String
+    +getFieldType(): FieldType
 }
 
 abstract class PassableField {
-    +{abstract} passField(token: Token): void
+    +{abstract} passField(player: Player, bank: Bank): void
 }
 
 class GoField {
-    +landOnField(token: Token): void
-    +landOnField(token: Token): void
+    +landOnField(player: Player, bank: Bank): void
+    +landOnField(player: Player, bank: Bank): void
+}
+
+class GoField {
+    -fieldReward: double
+
+    +GoField(name: String, fieldReward: double)
+    +landOnField(player: Player, bank: Bank): void
+    +passField(player: Player, bank: Bank): void
+    -givePlayerReward(player: Player, bank: Bank): void
 }
 
 class PropertyField {
     -price: double
     -owner: Player
 
-    +landOnField(token: Token): void
-}
-
-class Token {
-    -tokenType: TokenType
-    -player: Player
+    +landOnField(player: Player, bank: Bank): void
+    +hasOwner(): boolean
+    +getOwner(): Player
+    +setOwner(owner: Player): void
+    +getPrice(): double
 }
 
 enum FieldType {
@@ -73,22 +126,38 @@ enum FieldType {
     GO_TO_JAIL,
 }
 
-enum TokenType {
+enum Token {
     DOG,
     CAT,
     CAR,
     BOAT,
 }
 
+class Main {
+    -{static} START_BALANCE: double
+    -{static} DEFAULT_BOARD_SPACE: BoardSpace[]
+
+    -{static} loopUntilValid(scanner:Scanner, type: Class<T>, message: String, converter: Function<String, T>): T
+    -{static} loopUntilValidInt(scanner: Scanner, message: String): int
+    -{static} loopUntilValidString(scanner: Scanner, message: String): T
+    -{static} printHelp(): void
+}
+
 Field <|-- PassableField
 Field <|-- PropertyField 
 PassableField <|-- GoField
-Board "1      " *-- "1..* " Field
-Board "1 " *-- "2    " Token
-Field "1 " --> "1" FieldType
-Token "1 " *-- "1" Player
-Token "1 " o-- "1    " TokenType
-
+RaffleCup *-- Die
+Player *-- Account
+Field *-- FieldType
+Board *-- Bank
+Board *-- Field
+Board *-- Player
+BoardSpace *-- Field
+Main <-- Token
+Player o-- Token
+Main <-- RaffleCup
+Main <-- BoardSpace
+Main <-- Board
 
 
 @enduml
