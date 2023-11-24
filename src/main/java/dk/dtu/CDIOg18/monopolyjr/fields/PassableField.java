@@ -9,6 +9,7 @@ public abstract class PassableField extends Field {
         super(name, fieldType);
     }
 
+    // TODO: The field shouldn't handle this, as it would give it too high coupling 
     public abstract void fieldPassed(Player player, Bank bank);
     
 }
