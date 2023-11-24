@@ -106,6 +106,7 @@ public class Board {
             throw new PlayerOutOfMoneyException(player);
         
         this.bank.takeMoney(player.getAccount(), price);
+        propertyField.setOwner(player);
     }
 
     private void payFieldOwner(Player player, PropertyField propertyField) throws PlayerOutOfMoneyException {
