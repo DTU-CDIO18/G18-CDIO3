@@ -5,17 +5,20 @@ left to right direction
 actor Player
 
 package Game {
-    usecase "Make Transaction" as UC1
     usecase "End game" as UC2
+    usecase "Use Turn" as UC6 
     usecase "Start game" as UC3
     usecase "Lose game" as UC4
     usecase "Win game" as UC5
-    usecase UC6 as "Use Turn
-    --"
+    usecase "Make Transaction" as UC1
 }
 
 Player -- UC6
 Player -- UC3
-UC6 <-[dashed]- UC1: <<extend>>
-UC3 <-[dashed]- UC1: <<include>>
+Player -- UC2
+Player -- UC1
+UC4 -[dashed]-> UC2: <<extend>>
+UC6 <-[dashed]- UC1: <<include>>
+UC4 <-[dashed]- UC1: <<extend>>
+UC5 <-[dashed]- UC1: <<extend>>
 @enduml
