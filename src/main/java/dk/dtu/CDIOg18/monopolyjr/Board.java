@@ -49,6 +49,10 @@ public class Board {
         return this.players.get(player);
     }
 
+    public BoardSpace getPlayerBoardSpace(Player player) {
+        return this.boardSpaces[this.players.get(player)];
+    }
+
     public void movePlayer(Player player, int numSpaces) throws PlayerOutOfMoneyException {
         int playerIndex = this.players.get(player);
 
