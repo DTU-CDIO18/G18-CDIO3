@@ -45,6 +45,10 @@ public class Board {
         System.out.println(this.toString());
     }
 
+    public int getPlayerPos(Player player) {
+        return this.players.get(player);
+    }
+
     public void movePlayer(Player player, int numSpaces) throws PlayerOutOfMoneyException {
         int playerIndex = this.players.get(player);
 
