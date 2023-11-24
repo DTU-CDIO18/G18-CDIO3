@@ -11,7 +11,8 @@ import dk.dtu.CDIOg18.monopolyjr.fields.*;
 //      - 
 public class Board {
     private Bank bank;
-    private Field[] fields;
+    // private Field[] fields;
+    private BoardSpace[] boardSpaces;
 
     /**
      * HashMap of the player, and their index on the board
@@ -19,9 +20,9 @@ public class Board {
     private Map<Player, Integer> players;
 
 
-    public Board(Bank bank, Field[] fields, Player[] players) {
+    public Board(Bank bank, BoardSpace[] boardSpaces, Player[] players) {
         this.bank = bank;
-        this.fields = fields;
+        this.boardSpaces = boardSpaces;
         
         this.players = new HashMap<Player, Integer>();
         for (Player player : players) {
@@ -52,12 +53,12 @@ public class Board {
             passableField.fieldPassed(player, this.bank);
         }
 
-        int playerNewIndex = (playerIndex + numSpaces) % this.fields.length;
+        int playerNewIndex = (playerIndex + numSpaces) % this.boardSpaces.length;
         this.players.replace(player, playerNewIndex);
 
-        Field field = this.fields[playerNewIndex];
-        if (field instanceof PropertyField)
-            buyField(player, (PropertyField) field);
+        Field boardSpace = this.boardSpaces[playerNewIndex].getField();
+        if (boardSpace instanceof PropertyField)
+            buyField(player, (PropertyField) boardSpace);
 
     }
 
@@ -66,9 +67,9 @@ public class Board {
         // i.e when at the end of the array, start over at the start until the itterator `i` is fulfilled
         // Adapted from: https://stackoverflow.com/questions/8651965/java-array-traversal-in-circular-manner
         ArrayList<PassableField> passableFields = new ArrayList<>();
-        for (int i = 0, arrIdx = start; i < numSpaces; i++, arrIdx = ((start + i) % this.fields.length)) {
-            if (this.fields[arrIdx] instanceof PassableField) {
-                passableFields.add((PassableField) this.fields[arrIdx]);
+        for (int i = 0, arrIdx = start; i < numSpaces; i++, arrIdx = ((start + i) % this.boardSpaces.length)) {
+            if (this.boardSpaces[arrIdx].getField() instanceof PassableField) {
+                passableFields.add((PassableField) this.boardSpaces[arrIdx].getField());
             } 
         }
 
@@ -101,11 +102,12 @@ public class Board {
     public static void main(String[] args) {
         Bank bank = new Bank();
 
-        Field[] fields = new Field[] {
-            new GoField("Go", 10),
-            new PropertyField("Test", 5),
-            new PropertyField("Test2", 2),
-            new Jail(0, "Jail"),
+        BoardSpace[] boardSpaces = new BoardSpace[] {
+            new BoardSpace(new GoField("Go", 10)),
+            new BoardSpace(null),
+            new BoardSpace(new PropertyField("Test", 5)),
+            new BoardSpace(new PropertyField("Test2", 2)),
+            new BoardSpace(new Jail(0, "Jail")),
         };
 
         Player[] players = new Player[] {
@@ -115,7 +117,7 @@ public class Board {
             new Player("Benny", 99, Token.DOG , new Account(0)), 
         };
 
-        Board board = new Board(bank, fields, players);
+        Board board = new Board(bank, boardSpaces, players);
 
         board.display();
     }
